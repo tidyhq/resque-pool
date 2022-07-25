@@ -87,15 +87,20 @@ module Resque
       # TODO: make this use an actual logger
       def log(message)
         return if $skip_logging
-        puts "resque-pool-manager#{app}[#{Process.pid}]: #{message}"
+        puts "#{get_time} resque-pool-manager#{app}[#{Process.pid}]: #{message}"
         #$stdout.fsync
       end
 
       # TODO: make this use an actual logger
       def log_worker(message)
         return if $skip_logging
-        puts "resque-pool-worker#{app}[#{Process.pid}]: #{message}"
+        puts "#{get_time} resque-pool-worker#{app}[#{Process.pid}]: #{message}"
         #$stdout.fsync
+      end
+
+      def get_time
+        fmt = "%Y-%m-%dT%H:%M:%S.%6N"
+        Time.now.strftime(fmt)
       end
 
       # Include optional app name in procline
